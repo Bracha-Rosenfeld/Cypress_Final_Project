@@ -39,7 +39,7 @@ describe("Cart Test", () => {
 
         // קטגוריית בשמים
         cy.get("#menu-item-210208 > a").click();
-        cy.get("h3.wd-entities-title a[href*='white-musk-edt']").click();
+        cy.get("h3.wd-entities-title a[href*='white-musk-perfume-oil']").click();
         cy.get("button.single_add_to_cart_button").click();
 
         // קטגוריית גברים
