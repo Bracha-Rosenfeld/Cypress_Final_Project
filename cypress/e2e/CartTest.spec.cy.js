@@ -10,6 +10,7 @@ describe("Cart Test", () => {
         cy.get("h3.wd-entities-title a[href*='white-musk-perfume-oil']").click();
         cy.get("button.single_add_to_cart_button").click();
 
+
         cy.get("#menu-item-209983 > a").click();
         cy.get("a.product-image-link[href*='hand-cream-men']").click();
         cy.get("button.single_add_to_cart_button").click();
@@ -18,8 +19,18 @@ describe("Cart Test", () => {
         cy.get("div[data-id='1388']").click();
         cy.get("button.single_add_to_cart_button").click();
 
-        cy.get(".woocommerce-mini-cart-item .quantity .plus").click().click();
+        cy.get("p.woocommerce-mini-cart__total .amount")
+            .invoke("text")
+            .then(oldSubtotal => {
+        cy.get(".woocommerce-mini-cart-item .quantity .plus").first().click().click();
 
+                cy.get("p.woocommerce-mini-cart__total .amount")
+                    .should($el => {
+                        const newSubtotal = $el.text();
+                        expect(newSubtotal).not.to.eq(oldSubtotal);
+                    });
+
+            });
         cy.visit("https://www.bodyshop.co.il/cart/");
 
         const productNames = [];
@@ -45,7 +56,7 @@ describe("Cart Test", () => {
 
         cy.get(".order-total .woocommerce-Price-amount").invoke("text").then((total) => {
 
-          
+
             writeCartToExcel(
                 "cypress/results/cart.xlsx",
                 productNames,
